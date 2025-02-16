@@ -38,6 +38,7 @@ def show_diary(request):
 def show_fortune(request):
     template = loader.get_template('blog/fortune.html')
     birth_type = "阳历"
+    birth_date = ""
     date = ""
     if request.method == 'POST':
         form = FortuneDateForm(request.POST)
@@ -59,15 +60,16 @@ def show_fortune(request):
     # 获取今天的公历日期
     today = datetime.date.today()
     solar = Solar(today.year, today.month, today.day)
-    
     # 将公历日期转换为农历日期
     lunar = Converter.Solar2Lunar(solar)
     lunar_date = f"{lunar.year}年{lunar.month}月{lunar.day}日"
-        
-    prompt = f"我出生于{birth_type}{birth_date}，今天是阴历{lunar_date}。请你结合我的生辰八字以及今天的日期，帮我详细地分析一下今天我的运势。"
-    # print(prompt)
     fortune = ""
-    fortune = Zhipu_AI_API(prompt)
+    
+    if date == "":
+        prompt = ""
+    else:
+        prompt = f"我出生于{birth_type}{birth_date}，今天是阴历{lunar_date}。请你结合我的生辰八字以及今天的日期，帮我详细地分析一下今天我的运势。"
+        fortune = Zhipu_AI_API(prompt)
     context = {
         'date': date,
         'fortune': fortune,
