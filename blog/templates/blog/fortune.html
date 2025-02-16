@@ -1,13 +1,29 @@
-<h1>You can have a dialoge with AI about your fortune</h1>
-<p>
-    {{ fortune }}
-</p>
+<h1 style="text-align: center">You can have a dialoge with AI about your fortune</h1>
 
-<body>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">提交</button>
-    </form>
-</body>
-</html>
+<form method="POST" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+    {% csrf_token %}
+    <div>
+        <input type="number" name="birth_year" placeholder="出生年份" style="width: 100px; height: 25px; font-size: 16px;" required>
+        <input type="number" name="birth_month" placeholder="出生月份" style="width: 100px; height: 25px; font-size: 16px;" required>
+        <input type="number" name="birth_day" placeholder="出生日" style="width: 100px; height: 25px; font-size: 16px;" required>
+    </div>
+    <div style="margin-top: 10px;">
+        <input type="radio" id="solar" name="birth_date_type" value="solar" checked>
+        <label for="solar">阳历</label>
+        <input type="radio" id="lunar" name="birth_date_type" value="lunar">
+        <label for="lunar">阴历</label>
+    </div>
+    <button type="submit" style="width: 60px; height: 28px; font-size: 16px;">提交</button>
+</form>
+
+<p 
+    style="text-align: center">
+    {{ date }}
+</p>
+<div style="text-align: center; margin-top: 20px;">
+    <textarea readonly style="width: 1200px; font-size: 16px; resize: vertical;" rows="4" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'">
+        {{ fortune }}
+    </textarea>
+</div>
+
+
