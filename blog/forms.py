@@ -15,4 +15,5 @@ class FortuneDateForm(forms.Form):
     birth_year = forms.IntegerField()
     birth_month = forms.IntegerField()
     birth_day = forms.IntegerField()
+    birth_hour = forms.IntegerField()
     birth_date_type = forms.ChoiceField(choices=BIRTH_DATE_CHOICES)

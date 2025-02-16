@@ -6,6 +6,7 @@
         <input type="number" name="birth_year" placeholder="出生年份" style="width: 100px; height: 25px; font-size: 16px;" required>
         <input type="number" name="birth_month" placeholder="出生月份" style="width: 100px; height: 25px; font-size: 16px;" required>
         <input type="number" name="birth_day" placeholder="出生日" style="width: 100px; height: 25px; font-size: 16px;" required>
+        <input type="number" name="birth_hour" placeholder="出生小时" style="width: 100px; height: 25px; font-size: 16px;" required>
     </div>
     <div style="margin-top: 10px;">
         <input type="radio" id="solar" name="birth_date_type" value="solar" checked>
@@ -21,9 +22,15 @@
     {{ date }}
 </p>
 <div style="text-align: center; margin-top: 20px;">
-    <textarea readonly style="width: 1200px; font-size: 16px; resize: vertical;" rows="4" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'">
-        {{ fortune }}
-    </textarea>
+    <textarea id="fortune-textarea" readonly style="width: 1200px; font-size: 16px; resize: vertical;" rows="4">{{ fortune }}</textarea>
 </div>
+
+<script>
+    window.onload = function() {
+        var textarea = document.getElementById('fortune-textarea');
+        textarea.style.height = '';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    };
+</script>
 
 

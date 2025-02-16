@@ -3,6 +3,10 @@ from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 from django.template import loader
 from .forms import CustomUserCreationForm,FortuneDateForm
+from .utils import Zhipu_AI_API
+from lunarcalendar import Converter, Solar, Lunar
+import datetime
+
 
 def show_home(request):
     template = loader.get_template('blog/home.html')
@@ -33,24 +37,37 @@ def show_diary(request):
 
 def show_fortune(request):
     template = loader.get_template('blog/fortune.html')
-    answer = "fortune example"
+    birth_type = "阳历"
+    date = ""
     if request.method == 'POST':
         form = FortuneDateForm(request.POST)
         if form.is_valid():
             birth_year = form.cleaned_data['birth_year']
             birth_month = form.cleaned_data['birth_month']
             birth_day = form.cleaned_data['birth_day']
-            birth_date = f"{birth_year}年{birth_month}月{birth_day}日"
+            birth_hour = form.cleaned_data['birth_hour']
+            birth_date = f"{birth_year}年{birth_month}月{birth_day}日{birth_hour}时"
             birth_type = form.cleaned_data['birth_date_type']
             birth_type = "阳历" if birth_type == "solar" else "阴历"
-            date = f"生日：{birth_date}，类型：{birth_type}"
-            # print(answer)
+            date = f"生日：{birth_date}  类型：{birth_type}"
         else:
             print(form.errors)
     else:
         print("empty")
         form = FortuneDateForm()
-    fortune = "在这个代码中，textarea 元素被设置为只读（readonly），并且使用了 oninput 事件来根据内容的长度自动调整高度。resize: none 禁用了用户手动调整大小的功能，overflow: hidden 确保内容不会超出文本框。"
+        
+    # 获取今天的公历日期
+    today = datetime.date.today()
+    solar = Solar(today.year, today.month, today.day)
+    
+    # 将公历日期转换为农历日期
+    lunar = Converter.Solar2Lunar(solar)
+    lunar_date = f"{lunar.year}年{lunar.month}月{lunar.day}日"
+        
+    prompt = f"我出生于{birth_type}{birth_date}，今天是阴历{lunar_date}。请你结合我的生辰八字以及今天的日期，帮我详细地分析一下今天我的运势。"
+    # print(prompt)
+    fortune = ""
+    fortune = Zhipu_AI_API(prompt)
     context = {
         'date': date,
         'fortune': fortune,
