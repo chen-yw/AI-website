@@ -1,0 +1,15 @@
+<h1>This is my home</h1>
+<p>
+    {{ home }}
+</p>
+<button id="goToDiary">Go to Diary</button>
+<button id="goToFortune">Go to Fortune</button>
+
+<script>
+    document.getElementById('goToDiary').onclick = function() {
+        window.location.href = "diary";
+    };
+    document.getElementById('goToFortune').onclick = function() {
+        window.location.href = "fortune";
+    };
+</script>

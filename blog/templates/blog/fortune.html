@@ -1,0 +1,13 @@
+<h1>You can have a dialoge with AI about your fortune</h1>
+<p>
+    {{ fortune }}
+</p>
+
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">提交</button>
+    </form>
+</body>
+</html>
